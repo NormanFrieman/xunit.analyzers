@@ -9,6 +9,7 @@ public class CodeAnalysisNetAnalyzers : AnalyzerLoaderBase
 {
 	static readonly Lazy<Assembly> assemblyCSharpNetAnalyzers = new(LoadCSharpNetAnalyzers, isThreadSafe: true);
 	static readonly Lazy<Assembly> assemblyNetAnalyzers = new(LoadNetAnalyzers, isThreadSafe: true);
+	static readonly Lazy<Assembly> assemblySystemDiagnostics = new(LoadSystemDiagnostics, isThreadSafe: true);
 	static readonly Lazy<Type> typeCA1515 = new(() => FindType(assemblyCSharpNetAnalyzers, "Microsoft.CodeQuality.CSharp.Analyzers.Maintainability.CSharpMakeTypesInternal"), isThreadSafe: true);
 	static readonly Lazy<Type> typeCA2007 = new(() => FindType(assemblyNetAnalyzers, "Microsoft.CodeQuality.Analyzers.ApiDesignGuidelines.DoNotDirectlyAwaitATaskAnalyzer"), isThreadSafe: true);
 	static readonly Lazy<Type> typeCS8618 = new(() => FindType(assemblyNetAnalyzers, "System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute"), isThreadSafe: true);
@@ -18,6 +19,7 @@ public class CodeAnalysisNetAnalyzers : AnalyzerLoaderBase
 
 	public static DiagnosticAnalyzer CA2007() =>
 		Activator.CreateInstance(typeCA2007.Value) as DiagnosticAnalyzer ?? throw new InvalidOperationException($"Could not create instance of '{typeCA2007.Value.FullName}'");
+
 	public static DiagnosticAnalyzer CS8618() =>
 		Activator.CreateInstance(typeCS8618.Value) as DiagnosticAnalyzer ?? throw new InvalidOperationException($"Could not create instance of '{typeCS8618.Value.FullName}'");
 
@@ -33,5 +35,10 @@ public class CodeAnalysisNetAnalyzers : AnalyzerLoaderBase
 	{
 		LoadAssembly(Path.Combine(NuGetPackagesFolder, "microsoft.codeanalysis.workspaces.common", "3.11.0", "lib", "netcoreapp3.1", "Microsoft.CodeAnalysis.Workspaces.dll"));
 		return LoadAssembly(Path.Combine(NuGetPackagesFolder, "microsoft.codeanalysis.netanalyzers", "10.0.100", "analyzers", "dotnet", "Microsoft.CodeAnalysis.NetAnalyzers.dll"));
+	}
+
+	static Assembly LoadSystemDiagnostics()
+	{
+		return LoadAssembly(Path.Combine(NuGetPackagesFolder, "system.diagnostics.tools", "4.3.0", "lib", "netstandard2.0", "System.Diagnostics.Tools.dll"));
 	}
 }
