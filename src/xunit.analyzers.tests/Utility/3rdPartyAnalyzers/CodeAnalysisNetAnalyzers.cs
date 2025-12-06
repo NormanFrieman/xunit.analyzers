@@ -11,12 +11,15 @@ public class CodeAnalysisNetAnalyzers : AnalyzerLoaderBase
 	static readonly Lazy<Assembly> assemblyNetAnalyzers = new(LoadNetAnalyzers, isThreadSafe: true);
 	static readonly Lazy<Type> typeCA1515 = new(() => FindType(assemblyCSharpNetAnalyzers, "Microsoft.CodeQuality.CSharp.Analyzers.Maintainability.CSharpMakeTypesInternal"), isThreadSafe: true);
 	static readonly Lazy<Type> typeCA2007 = new(() => FindType(assemblyNetAnalyzers, "Microsoft.CodeQuality.Analyzers.ApiDesignGuidelines.DoNotDirectlyAwaitATaskAnalyzer"), isThreadSafe: true);
+	static readonly Lazy<Type> typeCS8618 = new(() => FindType(assemblyNetAnalyzers, "System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute"), isThreadSafe: true);
 
 	public static DiagnosticAnalyzer CA1515() =>
 		Activator.CreateInstance(typeCA1515.Value) as DiagnosticAnalyzer ?? throw new InvalidOperationException($"Could not create instance of '{typeCA1515.Value.FullName}'");
 
 	public static DiagnosticAnalyzer CA2007() =>
 		Activator.CreateInstance(typeCA2007.Value) as DiagnosticAnalyzer ?? throw new InvalidOperationException($"Could not create instance of '{typeCA2007.Value.FullName}'");
+	public static DiagnosticAnalyzer CS8618() =>
+		Activator.CreateInstance(typeCS8618.Value) as DiagnosticAnalyzer ?? throw new InvalidOperationException($"Could not create instance of '{typeCS8618.Value.FullName}'");
 
 	static Assembly LoadCSharpNetAnalyzers()
 	{

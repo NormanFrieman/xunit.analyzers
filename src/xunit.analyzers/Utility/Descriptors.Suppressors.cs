@@ -12,4 +12,7 @@ public static partial class Descriptors
 
 	public static SuppressionDescriptor VSTHRD200_Suppression { get; } =
 		Suppression("VSTHRD200", "xUnit.net test methods are not directly callable and do not benefit from this naming rule");
+
+	public static SuppressionDescriptor CS8618_Suppression { get; } =
+		Suppression("CS8618", "xUnit.net test");
 }
